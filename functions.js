@@ -10,13 +10,23 @@
 let inventory= ["Mangoes","Bananas","pears","passion","quavas","oranges","dates","apples","beetroot"]
 let quantities = [50,100,70,25,100,100,150,300,100,70]
 
+let stock = {};
+inventory.forEach((item, index) => {
+  stock[item] = quantities[index];
+});
+
+
+console.log(stock);
+
+
 function addItem(fruit, quantity){
   if(inventory.length < 10){
     inventory.push(fruit)
     quantities.push(quantity)
+    stock[fruit] = quantity; 
     console.log(inventory)
     console.log(quantities)
-    console.log(`${fruit} have been added to inventory `);
+    console.log(`${fruit} has been added to inventory `);
   }
   else{
      console.log("Inventory is full")
@@ -24,14 +34,15 @@ function addItem(fruit, quantity){
 
 }
 addItem("strawberries",300)
+console.log(stock)
 
 function updateStock(fruit, quantity){
   let index = inventory.indexOf(fruit)
   if(index !== -1){
     quantities[index] = quantity;
     console.log(quantities)
-    console.log(inventory);
-    console.log(` ${fruit} updated to ${quantity}`);
+    stock[fruit] = quantity
+    console.log(`stock of ${fruit} updated to ${quantity}`);
     
   }
   else{
@@ -39,26 +50,28 @@ function updateStock(fruit, quantity){
   }
 }
 updateStock("passion",75)
+console.log(stock);
 
-function totalInventory(){
-  let i = 0
+function totalInventory() {
   let sum = 0;
-  while(i < quantities.length){
-    console.log(sum+=quantities[i]);
-    i++
+  for (let i = 0; i < quantities.length; i++) {
+    sum += quantities[i];
   }
-  console.log({sum})
+  console.log(`Total inventory: ${sum}`);
 }
-totalInventory()
 
+totalInventory();
 
 function lowestQuantity() {
-  let minIndex = 0;
-  for (let i = 1; i < inventory.length; i++) {
-    if (inventory[i] < inventory[minIndex]) {
-      minIndex = i;
+  let lowStock = 0 ;
+  let lowestStock = Infinity;
+
+  for (let i = 0; i < inventory.length; i++) {
+    if (quantities[i] < lowestStock) {
+      lowestStock = quantities[i];
+      lowStock = inventory[i];
     }
   }
-  return inventory[minIndex];
+  return lowStock;
 }
 console.log(lowestQuantity());
